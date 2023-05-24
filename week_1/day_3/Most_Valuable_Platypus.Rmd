@@ -1,0 +1,81 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+1
+```{r}
+library(tidyverse)
+movies <- read_csv('7_homework_cleaning_data/data/movies.csv')
+```
+sadfhflaslfkjhsdf
+skdjflaksjdhflkasjhd
+
+askdfashfd
+
+
+2
+```{r}
+movies_selected <- movies %>% 
+  select(title, runtime, budget)
+```
+
+
+
+3
+```{r}
+Nas <- movies_selected %>% 
+  mutate(no_title = if_else(is.na(title),
+                            "TRUE", NA),
+         no_runtime = if_else(is.na(runtime),
+                            "TRUE", NA),
+         no_budget = if_else(is.na(budget),
+                            "TRUE", NA))
+  nrow(Nas$no_title)
+  nrow(Nas$no_runtime)
+  nrow(Nas$no_budget)
+```
+
+
+4
+
+```{r}
+movies_runtime <- movies %>% 
+  mutate(runtime = na_if(runtime, 0)) %>% 
+  filter(is.na(runtime)) 
+
+nrow(movies_runtime)
+```
+
+
+5
+
+```{r}
+movies_imputed <- movies %>% 
+  mutate(runtime = na_if(runtime, 0)) %>% 
+    mutate(runtime = coalesce(runtime, median(runtime, na.rm = TRUE)))
+
+# used median of runtime without 0s so as not to skew the set
+
+filter(movies_imputed, is.na(runtime)) %>% 
+  nrow()
+```
+
+
+6
+```{r}
+movies_imputed %>% 
+  slice_min(runtime, n = 10)
+
+movies_imputed %>% 
+  slice_max(runtime, n = 10)
+```
+
+7
+
+```{r}
+movies_imputed <- movies_imputed %>% 
+  mutate(budget = if_else(budget < 100, median(budget), budget))
+
+movies_imputed
+```
+
