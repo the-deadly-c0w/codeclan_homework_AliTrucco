@@ -71,7 +71,61 @@ impostors <- books %>%
   filter(authors == "NOT A BOOK")
 
 impostors
-nrow(books)-nrow(purged)
 ```
 
+
+
+
+
+how many books in each language
+
+```{r}
+books %>% 
+  group_by(language_code) %>% 
+  summarise(num_of_books = n()) %>% 
+  arrange(desc(num_of_books))
+
+#books %>% 
+#  count(language_code)
+```
+
+Do more recently reviewed books recieve a higher average rating?
+
+```{r}
+
+books_min1_rating <- books %>% 
+  filter(ratings_count > 0)
+# We start again with the min1_rating dataset
+books_min1_rating %>% 
+  select(title, authors, publication_date, average_rating) %>% 
+  # lets focus on years only
+  mutate(year = format(as.Date(books_min1_rating$publication_date,
+                               format="%m/%d/%Y"), "%Y"),
+                       .before = publication_date) %>% 
+# Let's just create 2 groups, before 2000 is 'old' and younger than 2000 'new'
+mutate(age = case_when(
+  year <2000 ~ "old",
+  year >=2000 ~ "young"
+), .after = year) %>% 
+ # filter(is.na(year)) # there are 2 books that have NA for year, but publication date is like normal?!
+  group_by(age) %>% 
+  summarise(average_rating = mean(average_rating))
+  
+```
+
+
+
+Languages that JK Rowling has published in 
+
+```{r}
+books %>% 
+  select(authors, publication_date, language_code) %>% 
+  mutate(JK = str_detect(authors, "J.K. Rowling"), .after = authors) %>% 
+  filter(JK == TRUE) -> jk_books
+  mutate(year = format(as.Date(jk_books$publication_date,
+                               format="%m/%d/%Y"), "%Y"),
+                       .before = publication_date)
+  #count(language_code)
+  arrange(desc(publication_date))
+```
 
