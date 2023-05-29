@@ -98,9 +98,24 @@ hats_dated <- unite(hats_separated, date, c("day","month","year"), sep = "/")
 Can you join all 4 datasets together so that you're left with a dataset that looks like below with **109 rows** and **12 columns**?
 
 ![](images/all_joined.png)
+```{r}
+inner_join(card, customer, "Cust_ID") %>% 
+  inner_join(transaction, by = c("Card_Number" = "Credit_Card_ID")) %>% 
+    inner_join(fraud, by = "Transaction_ID")
+
+
+```
+
+
+
 
 ## `tidyr`
 
 **Question 2**
 
 Read in `exam_scores` and transform it into long format with two new columns `exam_question` and `score`. Then, using `separate` and `select`, remove superfluous information from the values in `exam_question`
+
+```{r}
+scores <- read_csv("data/exam_scores.csv")
+```
+
