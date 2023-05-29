@@ -6,6 +6,15 @@ output: html_notebook
 ```{r}
 library(tidyverse)
 movies <- read_csv('7_homework_cleaning_data/data/movies.csv')
+
+
+
+as.data.frame(movies_na <- sapply(movies, is.na))
+
+summarise(movies_na, 
+          across(.cols = everything(),
+                 .fns = ~sum(.x)
+                 ))
 ```
 sadfhflaslfkjhsdf
 skdjflaksjdhflkasjhd
@@ -76,6 +85,33 @@ movies_imputed %>%
 movies_imputed <- movies_imputed %>% 
   mutate(budget = if_else(budget < 100, median(budget), budget))
 
-movies_imputed
+# check that no budget is below 100
+slice_min(movies_imputed, budget, n= 5)
 ```
+
+
+```{r}
+movies_budgets <- movies_imputed %>% 
+  mutate(budget_type = case_when( 
+    budget < 12e6 ~ "small budgie",
+    budget < 40e6 ~ "middle budgie",
+    budget >= 40e6 ~ "beeg budgie",))
+```
+
+```{r}
+movies %>% 
+  summarise(across(
+    .cols = everything(),
+    .fns = ~sum(is.na(.x))
+  ))
+```
+
+```{r}
+movies %>% 
+  summarise(across(
+    .cols = where(is.numeric),
+    .fns = ~sum(is.na(.x))
+  ))
+```
+
 

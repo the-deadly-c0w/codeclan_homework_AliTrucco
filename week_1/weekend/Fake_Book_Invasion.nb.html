@@ -1752,100 +1752,79 @@ display: none;
 
 
 <!-- rnb-text-begin -->
-<p>1</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyaXNlKG1vdmllc19uYSwgXG4gICAgICAgICAgYWNyb3NzKC5jb2xzID0gZXZlcnl0aGluZygpLFxuICAgICAgICAgICAgICAgICAuZm5zID0gfnN1bSgueClcbiAgICAgICAgICAgICAgICAgKSlcblxuYGBgIn0= -->
-<pre class="r"><code>summarise(movies_na, 
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>first searching the dataset for any missing values</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5ib29rc19uYSA8LSAgdGliYmxlKGJvb2tzX25hIDwtIHNhcHBseShib29rcywgaXMubmEpKVxuXG5zdW1tYXJpc2UoYm9va3NfbmEsIFxuICAgICAgICAgIGFjcm9zcyguY29scyA9IGV2ZXJ5dGhpbmcoKSxcbiAgICAgICAgICAgICAgICAgLmZucyA9IH5zdW0oLngpXG4gICAgICAgICAgICAgICAgICkpXG5cbmBgYCJ9 -->
+<pre class="r"><code>
+books_na &lt;-  tibble(books_na &lt;- sapply(books, is.na))
+
+summarise(books_na, 
           across(.cols = everything(),
                  .fns = ~sum(.x)
                  ))
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gVXNlTWV0aG9kKFwic3VtbWFyaXNlXCIpIDogXG4gIG5vIGFwcGxpY2FibGUgbWV0aG9kIGZvciAnc3VtbWFyaXNlJyBhcHBsaWVkIHRvIGFuIG9iamVjdCBvZiBjbGFzcyBcImMoJ21hdHJpeCcsICdhcnJheScsICdsb2dpY2FsJylcIlxuIn0= -->
-<pre><code>Error in UseMethod(&quot;summarise&quot;) : 
-  no applicable method for &#39;summarise&#39; applied to an object of class &quot;c(&#39;matrix&#39;, &#39;array&#39;, &#39;logical&#39;)&quot;</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>sadfhflaslfkjhsdf skdjflaksjdhflkasjhd</p>
-<p>askdfashfd</p>
-<p>2</p>
+<p>going off NA’s alone, there appear to be no missing entries in the
+data</p>
+<p>Q: How do we look for missing entries in big data</p>
+<p>what are the highest rated books?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>3</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTmFzIDwtIG1vdmllc19zZWxlY3RlZCAlPiUgXG4gIG11dGF0ZShub190aXRsZSA9IGlmX2Vsc2UoaXMubmEodGl0bGUpLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwiVFJVRVwiLCBOQSksXG4gICAgICAgICBub19ydW50aW1lID0gaWZfZWxzZShpcy5uYShydW50aW1lKSxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICBcIlRSVUVcIiwgTkEpLFxuICAgICAgICAgbm9fYnVkZ2V0ID0gaWZfZWxzZShpcy5uYShidWRnZXQpLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwiVFJVRVwiLCBOQSkpXG4gIG5yb3coTmFzJG5vX3RpdGxlKVxuICBucm93KE5hcyRub19ydW50aW1lKVxuICBucm93KE5hcyRub19idWRnZXQpXG5gYGAifQ== -->
-<pre class="r"><code>Nas &lt;- movies_selected %&gt;% 
-  mutate(no_title = if_else(is.na(title),
-                            &quot;TRUE&quot;, NA),
-         no_runtime = if_else(is.na(runtime),
-                            &quot;TRUE&quot;, NA),
-         no_budget = if_else(is.na(budget),
-                            &quot;TRUE&quot;, NA))
-  nrow(Nas$no_title)
-  nrow(Nas$no_runtime)
-  nrow(Nas$no_budget)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3MgJT4lIFxuICBzbGljZV9tYXgoYXZlcmFnZV9yYXRpbmcsIG4gPSA1KVxuYGBgIn0= -->
+<pre class="r"><code>books %&gt;% 
+  slice_max(average_rating, n = 5)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>4</p>
+<p>observations: <em>since 22 entries all share 5 as the highest value,
+we get more than 5 returned </em>Some entries are not books, and this is
+identified by “NOT A BOOK” in the author column <em>all of the books
+with the maximum rating have little to no reviews, which means their
+rating is heavily weighted by a small minority of readers. </em>It
+appears that a book with no ratings is defaulted to a rating of 5</p>
+<p>maybe it is a better idea to find the highest rated books with a
+minimum of 100 ratings, that are indeed books and not
+FAKE_BOOKS(scandalous.scl).</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX3J1bnRpbWUgPC0gbW92aWVzICU+JSBcbiAgbXV0YXRlKHJ1bnRpbWUgPSBuYV9pZihydW50aW1lLCAwKSkgJT4lIFxuICBmaWx0ZXIoaXMubmEocnVudGltZSkpIFxuXG5ucm93KG1vdmllc19ydW50aW1lKVxuYGBgIn0= -->
-<pre class="r"><code>movies_runtime &lt;- movies %&gt;% 
-  mutate(runtime = na_if(runtime, 0)) %&gt;% 
-  filter(is.na(runtime)) 
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3NfcmF0ZWQgPC0gYm9va3MgJT4lIFxuICBtdXRhdGUocmF0aW5nc19jb3VudCA9IGlmX2Vsc2UocmF0aW5nc19jb3VudCA8IDEwMCwgTkEsIHJhdGluZ3NfY291bnQpKSAlPiUgXG4gIGZpbHRlcighaXMubmEocmF0aW5nc19jb3VudCkpXG5cbiAgc2xpY2VfbWF4KGJvb2tzX3JhdGVkLCBhdmVyYWdlX3JhdGluZywgbiA9IDUpXG5cbmBgYCJ9 -->
+<pre class="r"><code>books_rated &lt;- books %&gt;% 
+  mutate(ratings_count = if_else(ratings_count &lt; 100, NA, ratings_count)) %&gt;% 
+  filter(!is.na(ratings_count))
 
-nrow(movies_runtime)</code></pre>
+  slice_max(books_rated, average_rating, n = 5)
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>5</p>
+<p>Driving out the impostors</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzICU+JSBcbiAgbXV0YXRlKHJ1bnRpbWUgPSBuYV9pZihydW50aW1lLCAwKSkgJT4lIFxuICAgIG11dGF0ZShydW50aW1lID0gY29hbGVzY2UocnVudGltZSwgbWVkaWFuKHJ1bnRpbWUsIG5hLnJtID0gVFJVRSkpKVxuXG4jIHVzZWQgbWVkaWFuIG9mIHJ1bnRpbWUgd2l0aG91dCAwcyBzbyBhcyBub3QgdG8gc2tldyB0aGUgc2V0XG5cbmZpbHRlcihtb3ZpZXNfaW1wdXRlZCwgaXMubmEocnVudGltZSkpICU+JSBcbiAgbnJvdygpXG5gYGAifQ== -->
-<pre class="r"><code>movies_imputed &lt;- movies %&gt;% 
-  mutate(runtime = na_if(runtime, 0)) %&gt;% 
-    mutate(runtime = coalesce(runtime, median(runtime, na.rm = TRUE)))
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI3B1cmdlZCA8LSBib29rcyAlPiUgXG4gIyBtdXRhdGUoYXV0aG9ycyA9IGlmX2Vsc2UoYXV0aG9ycyA9PSBcIk5PVCBBIEJPT0tcIiwgTkEsIGF1dGhvcnMpKSAlPiVcbiAgI2ZpbHRlcighaXMubmEoYXV0aG9ycykpXG5cbnB1cmdlZCA8LSBib29rcyAlPiUgXG4gIGZpbHRlcighYXV0aG9ycyA9PSBcIk5PVCBBIEJPT0tcIilcbmltcG9zdG9ycyA8LSBib29rcyAlPiUgXG4gIGZpbHRlcihhdXRob3JzID09IFwiTk9UIEEgQk9PS1wiKVxuXG5pbXBvc3RvcnNcbm5yb3coYm9va3MpLW5yb3cocHVyZ2VkKVxuYGBgIn0= -->
+<pre class="r"><code>#purged &lt;- books %&gt;% 
+ # mutate(authors = if_else(authors == &quot;NOT A BOOK&quot;, NA, authors)) %&gt;%
+  #filter(!is.na(authors))
 
-# used median of runtime without 0s so as not to skew the set
+purged &lt;- books %&gt;% 
+  filter(!authors == &quot;NOT A BOOK&quot;)
+impostors &lt;- books %&gt;% 
+  filter(authors == &quot;NOT A BOOK&quot;)
 
-filter(movies_imputed, is.na(runtime)) %&gt;% 
-  nrow()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>6</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX2ltcHV0ZWQgJT4lIFxuICBzbGljZV9taW4ocnVudGltZSwgbiA9IDEwKVxuXG5tb3ZpZXNfaW1wdXRlZCAlPiUgXG4gIHNsaWNlX21heChydW50aW1lLCBuID0gMTApXG5gYGAifQ== -->
-<pre class="r"><code>movies_imputed %&gt;% 
-  slice_min(runtime, n = 10)
-
-movies_imputed %&gt;% 
-  slice_max(runtime, n = 10)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>7</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIFxuICBtdXRhdGUoYnVkZ2V0ID0gaWZfZWxzZShidWRnZXQgPCAxMDAsIG1lZGlhbihidWRnZXQpLCBidWRnZXQpKVxuXG4jIGNoZWNrIHRoYXQgbm8gYnVkZ2V0IGlzIGJlbG93IDEwMFxuc2xpY2VfbWluKG1vdmllc19pbXB1dGVkLCBidWRnZXQsIG49IDUpXG5gYGAifQ== -->
-<pre class="r"><code>movies_imputed &lt;- movies_imputed %&gt;% 
-  mutate(budget = if_else(budget &lt; 100, median(budget), budget))
-
-# check that no budget is below 100
-slice_min(movies_imputed, budget, n= 5)</code></pre>
+impostors
+nrow(books)-nrow(purged)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoxCmBgYHtyfQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbW92aWVzIDwtIHJlYWRfY3N2KCc3X2hvbWV3b3JrX2NsZWFuaW5nX2RhdGEvZGF0YS9tb3ZpZXMuY3N2JykKCgoKYXMuZGF0YS5mcmFtZShtb3ZpZXNfbmEgPC0gc2FwcGx5KG1vdmllcywgaXMubmEpKQoKc3VtbWFyaXNlKG1vdmllc19uYSwgCiAgICAgICAgICBhY3Jvc3MoLmNvbHMgPSBldmVyeXRoaW5nKCksCiAgICAgICAgICAgICAgICAgLmZucyA9IH5zdW0oLngpCiAgICAgICAgICAgICAgICAgKSkKYGBgCnNhZGZoZmxhc2xma2poc2RmCnNrZGpmbGFrc2pkaGZsa2FzamhkCgphc2tkZmFzaGZkCgoKMgpgYGB7cn0KbW92aWVzX3NlbGVjdGVkIDwtIG1vdmllcyAlPiUgCiAgc2VsZWN0KHRpdGxlLCBydW50aW1lLCBidWRnZXQpCmBgYAoKCgozCmBgYHtyfQpOYXMgPC0gbW92aWVzX3NlbGVjdGVkICU+JSAKICBtdXRhdGUobm9fdGl0bGUgPSBpZl9lbHNlKGlzLm5hKHRpdGxlKSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICJUUlVFIiwgTkEpLAogICAgICAgICBub19ydW50aW1lID0gaWZfZWxzZShpcy5uYShydW50aW1lKSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICJUUlVFIiwgTkEpLAogICAgICAgICBub19idWRnZXQgPSBpZl9lbHNlKGlzLm5hKGJ1ZGdldCksCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAiVFJVRSIsIE5BKSkKICBucm93KE5hcyRub190aXRsZSkKICBucm93KE5hcyRub19ydW50aW1lKQogIG5yb3coTmFzJG5vX2J1ZGdldCkKYGBgCgoKNAoKYGBge3J9Cm1vdmllc19ydW50aW1lIDwtIG1vdmllcyAlPiUgCiAgbXV0YXRlKHJ1bnRpbWUgPSBuYV9pZihydW50aW1lLCAwKSkgJT4lIAogIGZpbHRlcihpcy5uYShydW50aW1lKSkgCgpucm93KG1vdmllc19ydW50aW1lKQpgYGAKCgo1CgpgYGB7cn0KbW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzICU+JSAKICBtdXRhdGUocnVudGltZSA9IG5hX2lmKHJ1bnRpbWUsIDApKSAlPiUgCiAgICBtdXRhdGUocnVudGltZSA9IGNvYWxlc2NlKHJ1bnRpbWUsIG1lZGlhbihydW50aW1lLCBuYS5ybSA9IFRSVUUpKSkKCiMgdXNlZCBtZWRpYW4gb2YgcnVudGltZSB3aXRob3V0IDBzIHNvIGFzIG5vdCB0byBza2V3IHRoZSBzZXQKCmZpbHRlcihtb3ZpZXNfaW1wdXRlZCwgaXMubmEocnVudGltZSkpICU+JSAKICBucm93KCkKYGBgCgoKNgpgYGB7cn0KbW92aWVzX2ltcHV0ZWQgJT4lIAogIHNsaWNlX21pbihydW50aW1lLCBuID0gMTApCgptb3ZpZXNfaW1wdXRlZCAlPiUgCiAgc2xpY2VfbWF4KHJ1bnRpbWUsIG4gPSAxMCkKYGBgCgo3CgpgYGB7cn0KbW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIAogIG11dGF0ZShidWRnZXQgPSBpZl9lbHNlKGJ1ZGdldCA8IDEwMCwgbWVkaWFuKGJ1ZGdldCksIGJ1ZGdldCkpCgojIGNoZWNrIHRoYXQgbm8gYnVkZ2V0IGlzIGJlbG93IDEwMApzbGljZV9taW4obW92aWVzX2ltcHV0ZWQsIGJ1ZGdldCwgbj0gNSkKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3J9CmJvb2tzIDwtIHJlYWQuY3N2KCdkYXRhL2Jvb2tzLmNzdicpCgpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShqYW5pdG9yKQoKdmlldyhib29rcykKYGBgCgoKCmZpcnN0IHNlYXJjaGluZyB0aGUgZGF0YXNldCBmb3IgYW55IG1pc3NpbmcgdmFsdWVzCmBgYHtyfQoKYm9va3NfbmEgPC0gIHRpYmJsZShib29rc19uYSA8LSBzYXBwbHkoYm9va3MsIGlzLm5hKSkKCnN1bW1hcmlzZShib29rc19uYSwgCiAgICAgICAgICBhY3Jvc3MoLmNvbHMgPSBldmVyeXRoaW5nKCksCiAgICAgICAgICAgICAgICAgLmZucyA9IH5zdW0oLngpCiAgICAgICAgICAgICAgICAgKSkKCmBgYApnb2luZyBvZmYgTkEncyBhbG9uZSwgdGhlcmUgYXBwZWFyIHRvIGJlIG5vIG1pc3NpbmcgZW50cmllcyBpbiB0aGUgZGF0YQoKUTogSG93IGRvIHdlIGxvb2sgZm9yIG1pc3NpbmcgZW50cmllcyBpbiBiaWcgZGF0YQoKCgp3aGF0IGFyZSB0aGUgaGlnaGVzdCByYXRlZCBib29rcz8KYGBge3J9CmJvb2tzICU+JSAKICBzbGljZV9tYXgoYXZlcmFnZV9yYXRpbmcsIG4gPSA1KQpgYGAKb2JzZXJ2YXRpb25zOiAKKnNpbmNlIDIyIGVudHJpZXMgYWxsIHNoYXJlIDUgYXMgdGhlIGhpZ2hlc3QgdmFsdWUsIHdlIGdldCBtb3JlIHRoYW4gNSByZXR1cm5lZAoqU29tZSBlbnRyaWVzIGFyZSBub3QgYm9va3MsIGFuZCB0aGlzIGlzIGlkZW50aWZpZWQgYnkgIk5PVCBBIEJPT0siIGluIHRoZSAKYXV0aG9yIGNvbHVtbgoqYWxsIG9mIHRoZSBib29rcyB3aXRoIHRoZSBtYXhpbXVtIHJhdGluZyBoYXZlIGxpdHRsZSB0byBubyByZXZpZXdzLCB3aGljaCBtZWFucyAKdGhlaXIgcmF0aW5nIGlzIGhlYXZpbHkgd2VpZ2h0ZWQgYnkgYSBzbWFsbCBtaW5vcml0eSBvZiByZWFkZXJzLgoqSXQgYXBwZWFycyB0aGF0IGEgYm9vayB3aXRoIG5vIHJhdGluZ3MgaXMgZGVmYXVsdGVkIHRvIGEgcmF0aW5nIG9mIDUKCgoKbWF5YmUgaXQgaXMgYSBiZXR0ZXIgaWRlYSB0byBmaW5kIHRoZSBoaWdoZXN0IHJhdGVkIGJvb2tzIHdpdGggYSBtaW5pbXVtIG9mIDEwMApyYXRpbmdzLCB0aGF0IGFyZSBpbmRlZWQgYm9va3MgYW5kIG5vdCBGQUtFX0JPT0tTKHNjYW5kYWxvdXMuc2NsKS4KCmBgYHtyfQpib29rc19yYXRlZCA8LSBib29rcyAlPiUgCiAgbXV0YXRlKHJhdGluZ3NfY291bnQgPSBpZl9lbHNlKHJhdGluZ3NfY291bnQgPCAxMDAsIE5BLCByYXRpbmdzX2NvdW50KSkgJT4lIAogIGZpbHRlcighaXMubmEocmF0aW5nc19jb3VudCkpCgogIHNsaWNlX21heChib29rc19yYXRlZCwgYXZlcmFnZV9yYXRpbmcsIG4gPSA1KQoKYGBgCgpEcml2aW5nIG91dCB0aGUgaW1wb3N0b3JzIAoKYGBge3J9CiNwdXJnZWQgPC0gYm9va3MgJT4lIAogIyBtdXRhdGUoYXV0aG9ycyA9IGlmX2Vsc2UoYXV0aG9ycyA9PSAiTk9UIEEgQk9PSyIsIE5BLCBhdXRob3JzKSkgJT4lCiAgI2ZpbHRlcighaXMubmEoYXV0aG9ycykpCgpwdXJnZWQgPC0gYm9va3MgJT4lIAogIGZpbHRlcighYXV0aG9ycyA9PSAiTk9UIEEgQk9PSyIpCmltcG9zdG9ycyA8LSBib29rcyAlPiUgCiAgZmlsdGVyKGF1dGhvcnMgPT0gIk5PVCBBIEJPT0siKQoKaW1wb3N0b3JzCm5yb3coYm9va3MpLW5yb3cocHVyZ2VkKQpgYGAKCgo=</div>
 
 
 
@@ -1892,7 +1871,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("Most_Valuable_Platypus.Rmd");
+  window.initializeSourceEmbed("Fake_Book_Invasion.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

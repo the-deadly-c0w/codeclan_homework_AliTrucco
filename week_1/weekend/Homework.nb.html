@@ -1752,100 +1752,31 @@ display: none;
 
 
 <!-- rnb-text-begin -->
-<p>1</p>
+<p>This is an <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+Notebook. When you execute code within the notebook, the results appear
+beneath the code.</p>
+<p>Try executing this chunk by clicking the <em>Run</em> button within
+the chunk or by placing your cursor inside it and pressing
+<em>Cmd+Shift+Enter</em>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyaXNlKG1vdmllc19uYSwgXG4gICAgICAgICAgYWNyb3NzKC5jb2xzID0gZXZlcnl0aGluZygpLFxuICAgICAgICAgICAgICAgICAuZm5zID0gfnN1bSgueClcbiAgICAgICAgICAgICAgICAgKSlcblxuYGBgIn0= -->
-<pre class="r"><code>summarise(movies_na, 
-          across(.cols = everything(),
-                 .fns = ~sum(.x)
-                 ))
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gVXNlTWV0aG9kKFwic3VtbWFyaXNlXCIpIDogXG4gIG5vIGFwcGxpY2FibGUgbWV0aG9kIGZvciAnc3VtbWFyaXNlJyBhcHBsaWVkIHRvIGFuIG9iamVjdCBvZiBjbGFzcyBcImMoJ21hdHJpeCcsICdhcnJheScsICdsb2dpY2FsJylcIlxuIn0= -->
-<pre><code>Error in UseMethod(&quot;summarise&quot;) : 
-  no applicable method for &#39;summarise&#39; applied to an object of class &quot;c(&#39;matrix&#39;, &#39;array&#39;, &#39;logical&#39;)&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>sadfhflaslfkjhsdf skdjflaksjdhflkasjhd</p>
-<p>askdfashfd</p>
-<p>2</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>3</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTmFzIDwtIG1vdmllc19zZWxlY3RlZCAlPiUgXG4gIG11dGF0ZShub190aXRsZSA9IGlmX2Vsc2UoaXMubmEodGl0bGUpLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwiVFJVRVwiLCBOQSksXG4gICAgICAgICBub19ydW50aW1lID0gaWZfZWxzZShpcy5uYShydW50aW1lKSxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICBcIlRSVUVcIiwgTkEpLFxuICAgICAgICAgbm9fYnVkZ2V0ID0gaWZfZWxzZShpcy5uYShidWRnZXQpLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwiVFJVRVwiLCBOQSkpXG4gIG5yb3coTmFzJG5vX3RpdGxlKVxuICBucm93KE5hcyRub19ydW50aW1lKVxuICBucm93KE5hcyRub19idWRnZXQpXG5gYGAifQ== -->
-<pre class="r"><code>Nas &lt;- movies_selected %&gt;% 
-  mutate(no_title = if_else(is.na(title),
-                            &quot;TRUE&quot;, NA),
-         no_runtime = if_else(is.na(runtime),
-                            &quot;TRUE&quot;, NA),
-         no_budget = if_else(is.na(budget),
-                            &quot;TRUE&quot;, NA))
-  nrow(Nas$no_title)
-  nrow(Nas$no_runtime)
-  nrow(Nas$no_budget)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxvdChjYXJzKVxuYGBgIn0= -->
+<pre class="r"><code>plot(cars)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>4</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX3J1bnRpbWUgPC0gbW92aWVzICU+JSBcbiAgbXV0YXRlKHJ1bnRpbWUgPSBuYV9pZihydW50aW1lLCAwKSkgJT4lIFxuICBmaWx0ZXIoaXMubmEocnVudGltZSkpIFxuXG5ucm93KG1vdmllc19ydW50aW1lKVxuYGBgIn0= -->
-<pre class="r"><code>movies_runtime &lt;- movies %&gt;% 
-  mutate(runtime = na_if(runtime, 0)) %&gt;% 
-  filter(is.na(runtime)) 
-
-nrow(movies_runtime)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>5</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzICU+JSBcbiAgbXV0YXRlKHJ1bnRpbWUgPSBuYV9pZihydW50aW1lLCAwKSkgJT4lIFxuICAgIG11dGF0ZShydW50aW1lID0gY29hbGVzY2UocnVudGltZSwgbWVkaWFuKHJ1bnRpbWUsIG5hLnJtID0gVFJVRSkpKVxuXG4jIHVzZWQgbWVkaWFuIG9mIHJ1bnRpbWUgd2l0aG91dCAwcyBzbyBhcyBub3QgdG8gc2tldyB0aGUgc2V0XG5cbmZpbHRlcihtb3ZpZXNfaW1wdXRlZCwgaXMubmEocnVudGltZSkpICU+JSBcbiAgbnJvdygpXG5gYGAifQ== -->
-<pre class="r"><code>movies_imputed &lt;- movies %&gt;% 
-  mutate(runtime = na_if(runtime, 0)) %&gt;% 
-    mutate(runtime = coalesce(runtime, median(runtime, na.rm = TRUE)))
-
-# used median of runtime without 0s so as not to skew the set
-
-filter(movies_imputed, is.na(runtime)) %&gt;% 
-  nrow()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>6</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX2ltcHV0ZWQgJT4lIFxuICBzbGljZV9taW4ocnVudGltZSwgbiA9IDEwKVxuXG5tb3ZpZXNfaW1wdXRlZCAlPiUgXG4gIHNsaWNlX21heChydW50aW1lLCBuID0gMTApXG5gYGAifQ== -->
-<pre class="r"><code>movies_imputed %&gt;% 
-  slice_min(runtime, n = 10)
-
-movies_imputed %&gt;% 
-  slice_max(runtime, n = 10)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>7</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIFxuICBtdXRhdGUoYnVkZ2V0ID0gaWZfZWxzZShidWRnZXQgPCAxMDAsIG1lZGlhbihidWRnZXQpLCBidWRnZXQpKVxuXG4jIGNoZWNrIHRoYXQgbm8gYnVkZ2V0IGlzIGJlbG93IDEwMFxuc2xpY2VfbWluKG1vdmllc19pbXB1dGVkLCBidWRnZXQsIG49IDUpXG5gYGAifQ== -->
-<pre class="r"><code>movies_imputed &lt;- movies_imputed %&gt;% 
-  mutate(budget = if_else(budget &lt; 100, median(budget), budget))
-
-# check that no budget is below 100
-slice_min(movies_imputed, budget, n= 5)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
+<p>Add a new chunk by clicking the <em>Insert Chunk</em> button on the
+toolbar or by pressing <em>Cmd+Option+I</em>.</p>
+<p>When you save the notebook, an HTML file containing the code and
+output will be saved alongside it (click the <em>Preview</em> button or
+press <em>Cmd+Shift+K</em> to preview the HTML file).</p>
+<p>The preview shows you a rendered HTML copy of the contents of the
+editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not
+run any R code chunks. Instead, the output of the chunk when it was last
+run in the editor is displayed.</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoxCmBgYHtyfQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbW92aWVzIDwtIHJlYWRfY3N2KCc3X2hvbWV3b3JrX2NsZWFuaW5nX2RhdGEvZGF0YS9tb3ZpZXMuY3N2JykKCgoKYXMuZGF0YS5mcmFtZShtb3ZpZXNfbmEgPC0gc2FwcGx5KG1vdmllcywgaXMubmEpKQoKc3VtbWFyaXNlKG1vdmllc19uYSwgCiAgICAgICAgICBhY3Jvc3MoLmNvbHMgPSBldmVyeXRoaW5nKCksCiAgICAgICAgICAgICAgICAgLmZucyA9IH5zdW0oLngpCiAgICAgICAgICAgICAgICAgKSkKYGBgCnNhZGZoZmxhc2xma2poc2RmCnNrZGpmbGFrc2pkaGZsa2FzamhkCgphc2tkZmFzaGZkCgoKMgpgYGB7cn0KbW92aWVzX3NlbGVjdGVkIDwtIG1vdmllcyAlPiUgCiAgc2VsZWN0KHRpdGxlLCBydW50aW1lLCBidWRnZXQpCmBgYAoKCgozCmBgYHtyfQpOYXMgPC0gbW92aWVzX3NlbGVjdGVkICU+JSAKICBtdXRhdGUobm9fdGl0bGUgPSBpZl9lbHNlKGlzLm5hKHRpdGxlKSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICJUUlVFIiwgTkEpLAogICAgICAgICBub19ydW50aW1lID0gaWZfZWxzZShpcy5uYShydW50aW1lKSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICJUUlVFIiwgTkEpLAogICAgICAgICBub19idWRnZXQgPSBpZl9lbHNlKGlzLm5hKGJ1ZGdldCksCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAiVFJVRSIsIE5BKSkKICBucm93KE5hcyRub190aXRsZSkKICBucm93KE5hcyRub19ydW50aW1lKQogIG5yb3coTmFzJG5vX2J1ZGdldCkKYGBgCgoKNAoKYGBge3J9Cm1vdmllc19ydW50aW1lIDwtIG1vdmllcyAlPiUgCiAgbXV0YXRlKHJ1bnRpbWUgPSBuYV9pZihydW50aW1lLCAwKSkgJT4lIAogIGZpbHRlcihpcy5uYShydW50aW1lKSkgCgpucm93KG1vdmllc19ydW50aW1lKQpgYGAKCgo1CgpgYGB7cn0KbW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzICU+JSAKICBtdXRhdGUocnVudGltZSA9IG5hX2lmKHJ1bnRpbWUsIDApKSAlPiUgCiAgICBtdXRhdGUocnVudGltZSA9IGNvYWxlc2NlKHJ1bnRpbWUsIG1lZGlhbihydW50aW1lLCBuYS5ybSA9IFRSVUUpKSkKCiMgdXNlZCBtZWRpYW4gb2YgcnVudGltZSB3aXRob3V0IDBzIHNvIGFzIG5vdCB0byBza2V3IHRoZSBzZXQKCmZpbHRlcihtb3ZpZXNfaW1wdXRlZCwgaXMubmEocnVudGltZSkpICU+JSAKICBucm93KCkKYGBgCgoKNgpgYGB7cn0KbW92aWVzX2ltcHV0ZWQgJT4lIAogIHNsaWNlX21pbihydW50aW1lLCBuID0gMTApCgptb3ZpZXNfaW1wdXRlZCAlPiUgCiAgc2xpY2VfbWF4KHJ1bnRpbWUsIG4gPSAxMCkKYGBgCgo3CgpgYGB7cn0KbW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIAogIG11dGF0ZShidWRnZXQgPSBpZl9lbHNlKGJ1ZGdldCA8IDEwMCwgbWVkaWFuKGJ1ZGdldCksIGJ1ZGdldCkpCgojIGNoZWNrIHRoYXQgbm8gYnVkZ2V0IGlzIGJlbG93IDEwMApzbGljZV9taW4obW92aWVzX2ltcHV0ZWQsIGJ1ZGdldCwgbj0gNSkKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2suIFdoZW4geW91IGV4ZWN1dGUgY29kZSB3aXRoaW4gdGhlIG5vdGVib29rLCB0aGUgcmVzdWx0cyBhcHBlYXIgYmVuZWF0aCB0aGUgY29kZS4gCgpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ21kK1NoaWZ0K0VudGVyKi4gCgpgYGB7cn0KcGxvdChjYXJzKQpgYGAKCkFkZCBhIG5ldyBjaHVuayBieSBjbGlja2luZyB0aGUgKkluc2VydCBDaHVuayogYnV0dG9uIG9uIHRoZSB0b29sYmFyIG9yIGJ5IHByZXNzaW5nICpDbWQrT3B0aW9uK0kqLgoKV2hlbiB5b3Ugc2F2ZSB0aGUgbm90ZWJvb2ssIGFuIEhUTUwgZmlsZSBjb250YWluaW5nIHRoZSBjb2RlIGFuZCBvdXRwdXQgd2lsbCBiZSBzYXZlZCBhbG9uZ3NpZGUgaXQgKGNsaWNrIHRoZSAqUHJldmlldyogYnV0dG9uIG9yIHByZXNzICpDbWQrU2hpZnQrSyogdG8gcHJldmlldyB0aGUgSFRNTCBmaWxlKS4gCgpUaGUgcHJldmlldyBzaG93cyB5b3UgYSByZW5kZXJlZCBIVE1MIGNvcHkgb2YgdGhlIGNvbnRlbnRzIG9mIHRoZSBlZGl0b3IuIENvbnNlcXVlbnRseSwgdW5saWtlICpLbml0KiwgKlByZXZpZXcqIGRvZXMgbm90IHJ1biBhbnkgUiBjb2RlIGNodW5rcy4gSW5zdGVhZCwgdGhlIG91dHB1dCBvZiB0aGUgY2h1bmsgd2hlbiBpdCB3YXMgbGFzdCBydW4gaW4gdGhlIGVkaXRvciBpcyBkaXNwbGF5ZWQuCgo=</div>
 
 
 
@@ -1892,7 +1823,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("Most_Valuable_Platypus.Rmd");
+  window.initializeSourceEmbed("Homework.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

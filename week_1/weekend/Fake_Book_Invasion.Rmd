@@ -1,0 +1,77 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+books <- read.csv('data/books.csv')
+
+library(tidyverse)
+library(janitor)
+
+view(books)
+```
+
+
+
+first searching the dataset for any missing values
+```{r}
+
+books_na <-  tibble(books_na <- sapply(books, is.na))
+
+summarise(books_na, 
+          across(.cols = everything(),
+                 .fns = ~sum(.x)
+                 ))
+
+```
+going off NA's alone, there appear to be no missing entries in the data
+
+Q: How do we look for missing entries in big data
+
+
+
+what are the highest rated books?
+```{r}
+books %>% 
+  slice_max(average_rating, n = 5)
+```
+observations: 
+*since 22 entries all share 5 as the highest value, we get more than 5 returned
+*Some entries are not books, and this is identified by "NOT A BOOK" in the 
+author column
+*all of the books with the maximum rating have little to no reviews, which means 
+their rating is heavily weighted by a small minority of readers.
+*It appears that a book with no ratings is defaulted to a rating of 5
+
+
+
+maybe it is a better idea to find the highest rated books with a minimum of 100
+ratings, that are indeed books and not FAKE_BOOKS(scandalous.scl).
+
+```{r}
+books_rated <- books %>% 
+  mutate(ratings_count = if_else(ratings_count < 100, NA, ratings_count)) %>% 
+  filter(!is.na(ratings_count))
+
+  slice_max(books_rated, average_rating, n = 5)
+
+```
+
+Driving out the impostors 
+
+```{r}
+#purged <- books %>% 
+ # mutate(authors = if_else(authors == "NOT A BOOK", NA, authors)) %>%
+  #filter(!is.na(authors))
+
+purged <- books %>% 
+  filter(!authors == "NOT A BOOK")
+impostors <- books %>% 
+  filter(authors == "NOT A BOOK")
+
+impostors
+nrow(books)-nrow(purged)
+```
+
+
