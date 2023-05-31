@@ -68,9 +68,12 @@ sum(tweets$unquoted)
 Summarise the mean number of retweets (`retweet_count`), split by the type of platform that was used to tweet (`source`). Again, omit quoted tweets from the mean.
 
 ```{r}
-tweets %>% 
+mean_retweets <- tweets %>% 
   filter(is_quote == FALSE) %>% 
-  group_by(source)
+  group_by(source) %>% 
+  summarise(average_retweet = mean(retweet_count))
+
+head(mean_retweets)
 
 ```
 
@@ -79,6 +82,12 @@ tweets %>%
 
 **Question 4.**  
 Count the total number of likes (i.e. total of `favorite_count`), split by `media` type, and arrange them from most likes to least. Assume that any tweets without a listed `media` type are of type "text".  
+
+
+```{r}
+
+```
+
 
 <br>
 
