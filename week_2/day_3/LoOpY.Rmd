@@ -54,7 +54,7 @@ You will want to give a name to the matrix you create.
 
 
 ```{r}
-totally_real_weather <- matrix(round(rnorm(14, 23,4), 1),2 ,7)
+totally_real_weather <- matrix(round(rnorm(14, 23, 4), 1),2 ,7)
 
 totally_real_weather
 ```
@@ -110,9 +110,33 @@ answer_me(3.2)
 answer_me(10)
 answer_me(39.8)
 answer_me(weather_forecast)
+answer_me(TRUE)
 
 ```
 
+
+
+
+```{r}
+answer_me <- function(x){
+ 
+  if(is.character(x)|is.numeric(x)&x!=10){
+    if(is.character(x)){
+      return(paste("the answer is: ", x))
+    }
+    if(x < 10){
+      return(x)
+    }
+    if(x > 10){
+      return(x/10)
+    }
+  }else{
+    return("invalid input")
+  }
+}
+
+answer_me(2)
+```
 
 <br>
 
@@ -133,6 +157,7 @@ vector_check <- function(x, y){
     return("vectors must be same length")
   }else{
   
+    
   for(i in 1:length(x)){
           if(x[i] == y[i]){
         perfect <- perfect + 1
@@ -142,9 +167,9 @@ vector_check <- function(x, y){
           same <- same + 1
         }
     }
-      
-
   }
+    
+    
   if(perfect == length(x)){
     return("Clones!")
   }else{
@@ -180,7 +205,8 @@ vector_check_check <- function(x, y){
         }
     }
   }
-  return(same)
+print(paste("perfect:", perfect))
+print(paste("same:", same))
 }
       
 
@@ -224,3 +250,24 @@ should produce the histogram below - the histogram dislpays the number of times 
 5 | **
 ```
 
+
+
+```{r}
+vector_counter <- function(vect1){
+  x = c(0,0,0,0,0)
+
+  
+  
+  for (i in length(vect1)){
+    for(j in 1:5){
+    if(vect1[i] == j){
+      x[j] = x[j] + 1 
+    }
+  }
+  print(x)
+  }
+}
+
+vector_counter(c(1,2,2,2,3,4,1))
+```
+  
