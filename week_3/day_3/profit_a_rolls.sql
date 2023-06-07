@@ -203,5 +203,12 @@ SELECT
 	department,
 	CAST(sum(grade) AS REAL)/ count(id) AS proportion
 FROM employees
-GROUP BY department
+GROUP BY department;
 
+----- 16 again for all grade types
+
+SELECT 
+	department,
+	sum(cast(grade = 1 AS int))/ CAST(count(id) AS REAL) AS proportion
+FROM employees
+GROUP BY department
