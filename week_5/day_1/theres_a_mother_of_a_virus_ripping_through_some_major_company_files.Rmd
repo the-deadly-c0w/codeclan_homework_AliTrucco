@@ -75,7 +75,7 @@ ggplot(monthly_sales) +
   geom_line() +
   geom_point() +
   labs(y = "revenue") +
-  scale_x_date("Date", date_breaks = "1 month") +
+  scale_x_date("Date", date_breaks = "1 month", date_labels = "%b-%y") +
   theme_linedraw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
@@ -92,7 +92,7 @@ monthly_sales <- clean_names(qb_monthly_sales) %>%
 ggplot(monthly_sales) +
   aes(x = date, y = amount, colour = cashflow) +
   geom_line() +
-  scale_x_date("Date", date_breaks = "1 month") +
+  scale_x_date("Date", date_breaks = "1 month", date_labels = "%b-%y") +
   labs(y = "revenue") +
   scale_colour_manual(values = col_scheme) +
   theme_linedraw() +
@@ -122,9 +122,9 @@ Now show the sales from the four competitors as a line graph. Include an extra l
 ```{r}
 ggplot(competitors) +
   aes(year, revenue, colour = company) +
-  geom_line() +
+  geom_line(size = 2) +
   scale_y_continuous(labels = scales::comma) +
-  geom_point() +
+  geom_point(size = 2) +
   scale_colour_manual(values = col_scheme)
   theme_minimal()
 ```
@@ -136,15 +136,14 @@ Now the company wants to compare the number of steps that their device counts vs
 
 
 ```{r}
-device <- clean_names(qb_device_data) %>% 
-  mutate(time = hours*60+mins)
+device <- clean_names(qb_device_data)
 
 ggplot(device) +
-  aes(time, counts, group = id, colour = device) +
+  aes(decimal_hour, counts, group = id, colour = device) +
   geom_line() +
-  facet_grid(device ~ id) +
+  facet_grid(id ~ device) +
   scale_colour_manual(values = col_scheme) +
-  theme_classic()
+  theme_qb
  
 
 ```
