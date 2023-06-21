@@ -61,11 +61,15 @@ ALPHA NOT WORKING
 
 ```{r}
 pain <- backpack %>% 
-  count(back_problems)
+  count(back_problems) %>% 
+  mutate(backpain = recode(back_problems, 
+         "0" = "No",
+         "1" = "Yes"
+         ))
 
 #pain$n[2]/sum(pain$n)
 
-ggplot(pain, aes(x="", y=n, fill = as.factor(back_problems))) +
+ggplot(pain, aes(x="", y=n, fill = backpain)) +
   geom_bar(stat = "identity", width = 1) +
   coord_polar("y", start=0) +
   theme_void() +
@@ -80,10 +84,13 @@ ggplot(pain, aes(x="", y=n, fill = as.factor(back_problems))) +
 
 ```{r}
 backpack %>% 
-  mutate(bp_fact = as.factor(back_problems)) %>% 
+  mutate(back_pain = recode(back_problems, 
+         "0" = "No",
+         "1" = "Yes"
+         )) %>% 
 
 ggplot() +
-  aes(back_problems, fill = sex) +
+  aes(back_pain, fill = sex) +
   geom_bar(position = "dodge") 
   
 ```
@@ -93,9 +100,15 @@ HUGE PROBLEM: KEEPS READING DISCREET VARIABLES AS CONTINUOUS
 8.
 
 ```{r}
-ggplot(backpack) +
-  aes(sex, ratio, fill = sex, colour = "") +
-  geom_boxplot() +
-  facet_wrap(~ back_problems)
+backpack %>% 
+mutate(back_pain = recode(back_problems, 
+         "0" = "No",
+         "1" = "Yes"
+         )) %>% 
+
+ggplot() +
+  aes(sex, ratio, fill = sex) +
+  geom_boxplot(colour = "darkgreen") +
+  facet_wrap(~ back_pain)
 ```
 
