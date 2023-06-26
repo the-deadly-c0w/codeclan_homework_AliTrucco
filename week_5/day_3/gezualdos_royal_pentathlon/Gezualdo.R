@@ -5,9 +5,26 @@ library(ggplot2)
 library(fmsb)
 library(plotly)
 library(tidyverse)
+library(bslib)
 
 
-champions <- read_csv("champions.csv")
+champions <- as.data.frame(matrix( c(9,15,4,17,
+                                     20,13,10,6,
+                                     1,6,18,5,
+                                     8,10,13,15,
+                                     12,9,7,12) #sample( 0:20 , 20 , replace=F)
+                                   , ncol=5))
+
+colnames(champions) <- c("baking" , "jousting" , "birdwatching" , "stonemasonry" , "snake charming" )
+
+names <- tibble(name = c("Glimbus", "Dorply-Lwyd", "Ghengis", "Shmebuloc"))
+
+named <- names %>% 
+  bind_cols(champions)
+
+champions <- rbind(rep(20,5) , rep(0,5) , named)
+
+#champions <- read_csv("champions.csv")
 
 colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9) )
 colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4) )
@@ -17,6 +34,8 @@ colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4) )
 
 
 ui <- fluidPage(
+  
+  theme = bs_theme(bootswatch = "cerulean"),
   
   
   titlePanel("Gezualdo's Royal Pentathlon"),

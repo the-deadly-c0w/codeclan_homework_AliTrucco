@@ -1,0 +1,32 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+gamermode <- CodeClanData::game_sales
+```
+
+```{r}
+#trying to unstring col names
+
+gamermode %>% 
+  filter(year_of_release == 2006) %>% 
+  summarise(total_sales = sum(sales), .by = ivmte:::unstring("genre")[1]) %>% 
+        ggplot() +
+      aes(ivmte:::unstring("genre")[1], total_sales) +
+      geom_col()
+```
+
+```{r}
+gamermode %>% 
+  ggplot() + 
+  aes(log(sales), critic_score) +
+  geom_point()
+```
+
