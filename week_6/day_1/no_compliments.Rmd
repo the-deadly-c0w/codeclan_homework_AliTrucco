@@ -58,7 +58,7 @@ p(survived | passenger) = p(S intersect P)/p(P)
 0.22655188 / 0.5967377
 ```
 
-the calculations suggest you were more likely to survive as a crew member
+the calculations suggest you were more likely to survive as a passenger!
 
 
 
