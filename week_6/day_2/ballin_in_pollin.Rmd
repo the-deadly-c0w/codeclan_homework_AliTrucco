@@ -1,0 +1,94 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+1
+```{r}
+phones <- read_csv("data/20190928-items.csv") %>% 
+  janitor::clean_names()
+
+head(phones)
+```
+
+
+
+
+2
+```{r}
+phones %>% 
+  count(brand) %>% 
+  slice_max(n, n = 5)
+```
+samsung is packing mad phones right now 
+
+
+
+
+```{r}
+sam_phone <- phones %>% 
+  filter(brand == "Samsung")
+```
+
+
+
+
+3
+```{r}
+sam_phone %>% 
+  ggplot() +
+  aes(x = rating) +
+  geom_histogram(bins = 40,aes(y = after_stat(density))) +
+   stat_function(fun = dnorm,
+                args = list(
+                  mean = mean(sam_phone$rating),
+                  sd = sd(sam_phone$rating)
+                ))
+```
+
+while the symmetry and centers of the data line up, there are clear outliers around 1,2 and 5 
+that severely break from the normal distribution, as well as a much higher centre presented in
+the data than in the normal curve. while the approximation is decent there may be better
+distributions to represent the data
+
+
+4.
+```{r}
+sam_phone %>% 
+  mutate(z_rat_scale = scale(rating)) %>% 
+  filter(z_rat_scale <= 1 & z_rat_scale >= -1) %>% 
+  nrow()/nrow(sam_phone)
+```
+
+```{r}
+sam_phone %>% 
+  mutate(z_rat_scale = scale(rating)) %>% 
+  filter(z_rat_scale <= 2 & z_rat_scale >= -2) %>% 
+  nrow()/nrow(sam_phone)
+```
+
+```{r}
+sam_phone %>% 
+  mutate(z_rat_scale = scale(rating)) %>% 
+  filter(z_rat_scale <= 3 & z_rat_scale >= -3) %>% 
+  nrow()/nrow(sam_phone)
+```
+
+since almost 80% of the data is captured in the first sd dev this is not a prefect fit and
+a different approximation should be considered.
+
+```{r}
+std_s_phone <- sam_phone %>% 
+  mutate(z_rat_scale = scale(rating))
+
+
+qqnorm(std_s_phone$z_rat_scale) 
+  qqline(dnorm(100))
+```
+
+something is going crazy here qq line hates me
