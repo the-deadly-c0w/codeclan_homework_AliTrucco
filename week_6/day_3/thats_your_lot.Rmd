@@ -1,0 +1,104 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(infer)
+```
+
+
+```{r}
+ames <- read_csv("data/ames.csv") %>% 
+  janitor::clean_names()
+```
+
+```{r}
+ames %>% 
+  ggplot() +
+  aes(lot_area) +
+  geom_histogram()
+```
+
+clearly there are some extreme outliers in the data that lie well beyond the 99th percentile of 
+the data that are skewing thingsto an extreme
+
+
+```{r}
+ames %>% 
+  filter(lot_area < 30000) %>% 
+  ggplot(aes(x = lot_area)) +
+  geom_histogram(bins = 20,
+                 aes(y = after_stat(density)),
+                  fill = "springgreen4",
+                 col = "white",
+                 # after stat super important
+                ) +
+  stat_function(
+    fun = dnorm, 
+    args = list(
+      mean = mean(ames$lot_area),
+      sd = sd(ames$lot_area)
+    ),
+    col = "darkgreen"
+  )
+```
+
+even with adjustment for outliers the peak seems very steam and the taper greater than it should 
+be for a normal distribution
+
+
+```{r}
+infer_resample <- ames %>% 
+  filter(lot_area < 30000) %>% 
+  specify(response = lot_area) %>% 
+  generate(reps = 5000, type = "bootstrap") %>% #
+  calculate(stat = "mean") #statistic of interest for each resample
+
+infer_resample
+```
+
+```{r}
+infer_resample %>% 
+  ggplot() +
+  aes(stat) +
+  geom_histogram()
+```
+
+central limit theorem still works
+
+```{r}
+infer_ci_95 <- infer_resample %>% 
+  get_ci(level = 0.95, type = "percentile")
+
+infer_ci_95
+```
+
+```{r}
+infer_resample %>% 
+  visualise(bins = 30) +
+  shade_ci(endpoints = infer_ci_95)
+```
+
+
+```{r}
+infer_ci_99 <- infer_resample %>% 
+  get_ci(level = 0.99, type = "percentile")
+
+infer_ci_99
+```
+
+```{r}
+infer_resample %>% 
+  visualise(bins = 30) +
+  shade_ci(endpoints = infer_ci_99)
+```
+
+the new interval is broader since, in trying to be more certain of the placement of our mean, we have widened the number of options 
+
+```{r}
+  mean(infer_resample$stat)
+```
+
+badabing badaboom

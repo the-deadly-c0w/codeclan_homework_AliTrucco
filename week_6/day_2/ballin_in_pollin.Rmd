@@ -43,7 +43,7 @@ sam_phone <- phones %>%
 sam_phone %>% 
   ggplot() +
   aes(x = rating) +
-  geom_histogram(bins = 40,aes(y = after_stat(density))) +
+  geom_histogram(bins = 30,aes(y = after_stat(density))) +
    stat_function(fun = dnorm,
                 args = list(
                   mean = mean(sam_phone$rating),
