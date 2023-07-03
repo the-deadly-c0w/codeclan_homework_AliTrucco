@@ -1,0 +1,60 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+retail_subset <- read_csv("data/online_retail_subset.csv") %>% 
+  janitor::clean_names()
+
+```
+
+```{r}
+contains_A <- retail_subset %>% 
+  select(invoice_no, stock_code) %>% 
+  filter(stock_code %in% c("22469"))
+```
+```{r}
+contains_A %>% 
+  group_by(invoice_no) %>% 
+  count() %>% 
+  ungroup() %>% 
+  summarise(n(), .by = n)
+```
+
+```{r}
+contains_B <- retail_subset %>% 
+  select(invoice_no, stock_code) %>% 
+  filter(stock_code %in% c("21110"))
+```
+
+making sure to count single and double purchases in the same order as only one instance
+
+```{r}
+contains_B %>% 
+  group_by(invoice_no) %>% 
+  count() %>% 
+  ungroup() %>% 
+  summarise(n(), .by = n)
+```
+
+
+
+
+
+
+```{r}
+AB <- retail_subset %>% 
+  select(invoice_no, stock_code) %>% 
+  filter(stock_code %in% c("22469","21110"))
+```
+
+```{r}
+AB %>% 
+  group_by(invoice_no) %>% 
+  
+```
+
+
+
