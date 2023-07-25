@@ -1,0 +1,53 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+manage <- read_csv("data/project_management.csv")
+```
+
+```{r}
+manage %>% 
+  ggplot() +
+  aes(estimated_length, actual_length) +
+  geom_point()
+  
+```
+
+
+
+```{r}
+manage %>% 
+  summarise(cor(estimated_length, actual_length))
+```
+
+this shows a strong linear correlation between our estimated length and actual length
+
+```{r}
+model <- lm(formula = actual_length ~ estimated_length, data = manage)
+```
+
+
+```{r}
+glance(model)
+```
+
+the variation in the predicted length explains about 65 percent of the variation in the actual length.
+since we are aiming at a predictive model, this number could be drastically improved.
+
+```{r}
+autoplot(model)
+```
+
+there are no issues with these plots so we conclude that the assumptions for linear regression are satisfied
+
+the p-value is far less than 0.05 so we can say that the regression model is statistically significant at 
+the 95% confidence level.
+
+
+aaaaa
