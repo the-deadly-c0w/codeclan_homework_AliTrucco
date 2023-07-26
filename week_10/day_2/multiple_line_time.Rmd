@@ -1,0 +1,128 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+housing <- read_csv("data/housing_prices.csv")
+```
+
+big data, ocean proximity might need recoding
+
+```{r}
+housing %>% 
+  summarise(across(everything(),
+                   ~ sum(is.na(.))))
+```
+may need to impute total bedrooms
+
+```{r}
+library(GGally)
+```
+
+
+```{r, message=FALSE}
+housing %>% 
+  select(total_rooms, total_bedrooms) %>% 
+ggpairs()
+```
+
+they look to be extremely highly correlated, with variance growing between them as values get higher.
+
+
+
+
+
+removing bedrooms as they are superfluous 
+```{r}
+housing <- housing %>% 
+  select(-total_bedrooms)
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+ggpairs(housing)
+```
+
+population and total rooms
+households and total rooms
+households and population
+mean house value and median income
+
+```{r}
+housing %>% 
+  ggplot() +
+  aes(median_house_value, median_income) +
+  geom_point(alpha = 0.05) +
+  geom_smooth(method = 'lm', se = F, col = "red")
+```
+
+```{r}
+housing %>% 
+  ggplot() +
+  aes(households, population) +
+  geom_point(alpha = 0.05) +
+  geom_smooth(method = 'lm', se = F, col = "red")
+```
+
+```{r}
+housing %>% 
+  ggplot() +
+  aes(households, total_rooms) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(method = 'lm', se = F, col = "red")
+```
+
+
+```{r}
+unique(housing$ocean_proximity)
+```
+
+we expect to see 4 dummy variables from this, as we want n-1 variables to avoid multicolnearity
+
+```{r}
+housing_dummy <- janitor::clean_names(housing %>% 
+  fastDummies::dummy_cols(select_columns = 'ocean_proximity',
+                          remove_selected_columns = TRUE,
+                          remove_first_dummy = TRUE)
+)
+```
+
+
+make a linear model
+
+```{r}
+model1 <- lm(median_house_value ~ median_income, housing_dummy)
+```
+
+```{r}
+autoplot(model1)
+```
+
+very cursed, the qq plot should not look like wiggly woo
+
+```{r}
+summary(model1)
+```
+
+
+lets try adding ocean proximity to the mix
+
+```{r}
+model2 <- lm(median_house_value ~ median_income + ocean_proximity_near_ocean, housing_dummy)
+```
+
+```{r}
+autoplot(model2)
+```
+
+it's a little better but we're still wiggling
+
+```{r}
+summary(model2)
+```
+
