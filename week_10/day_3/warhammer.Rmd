@@ -77,6 +77,15 @@ houses_trim <- houses %>%
 ```
 
 
+```{r}
+houses_trim %>% 
+  mutate(across(.cols = where(is.numeric),
+                .fns = ~ log10(.x))) %>% 
+  skimr::skim() %>% 
+  view
+```
+
+
 
 # Question 2
 
