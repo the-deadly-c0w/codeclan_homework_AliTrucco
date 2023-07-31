@@ -1,0 +1,203 @@
+---
+title: "Weekend Homework - Model Building"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+    css: ../../../styles.css
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = 'center')
+```
+
+# MVP
+
+We've looked at a few different ways in which we can build models this week, including how to prepare them properly. This weekend we'll build a multiple linear regression model on a dataset which will need some preparation. The data can be found in the data folder, along with a data dictionary
+
+We want to investigate the `wine_quality_red` and `wine_quality_white` datasets, and, in particular, to model the `quality` of the wines. Use regression to determine which physiochemical properties make a wine 'good'!
+
+Use the tools we've worked with this week in order to prepare your dataset and find appropriate predictors. Once you've built your model use the validation techniques discussed on Wednesday to evaluate it. Feel free to focus either on building an *explanatory* or a *predictive* model, or both if you are feeling energetic!
+
+
+
+Acknowledgements
+This dataset is from the UCI machine learning repository, https://archive.ics.uci.edu/ml/datasets/wine+quality.
+
+Ref: *P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis. Modeling wine preferences by data mining from physicochemical properties. In Decision Support Systems, Elsevier, 47(4):547-553, 2009.*
+
+
+
+As part of the MVP we want you not to just run the code but also have a go at **interpreting the results** and write your thinking in comments in your script.
+
+**Hints and tips**
+
+* `region` may lead to many dummy variables. Think carefully about whether to include this variable or not (there is no one 'right' answer to this!)
+* Think about whether each variable is *categorical* or *numerical*. If categorical, make sure that the variable is represented as a factor.
+* If you want to build a predictive model, consider using either `leaps` or `glmulti` to help with this.
+
+
+
+
+```{r}
+library(car)
+library(tidyverse)
+library(modelr)
+library(GGally)
+library(ggfortify)
+```
+
+```{r}
+red <- read_csv("data/wine_quality_red.csv")
+white <- read_csv("data/wine_quality_white.csv")
+```
+
+Right now I'm choosing to keep these datasets separate as I feel that the differences so could be so large
+that analysing them separately will be more accurate than making a categorical colour variable, combining 
+the sets then trying to make a model that tries to take colour into account.
+
+
+
+
+## Red
+
+### test & training
+
+since we have 1000+ observations a 9:1 training to test split feels appropriate
+
+```{r}
+red_test_id <- sample(red$wine_id, nrow(red)/10)
+red_test <- red[red_test_id,]
+red_training <- red[-red_test_id,]
+```
+
+
+### First look/cleaning/transfomation
+
+```{r}
+red_summary <- skimr::skim(red_training)
+view(red_summary)
+```
+
+no missing values so imputation and dropping needn't be considered
+need to check how region is defined
+need to class quality as a categorical in bins as it is based on a ordinal data
+some variables look to be likely aliased such as free/total sulfur dioxide
+many of the numeric categories such as alcohol level might look a lot more linear after a log transform 
+wine id provides no information here and therefore can be dropped
+
+
+
+```{r}
+alias(lm(quality ~ ., red))
+```
+
+surprisingly the alias function returns the whole model, implying that none of the predictors are aliased
+closely enough with one another.
+
+#### transforming quality to categorical
+
+
+
+will be split into 10 bins from 0-9, as either 0 or 10 must be omitted. This means it will 
+always round down so 8.9 goes to 8. Considered a more 'fair' grouping where numbers were 
+rounded to the nearest integer but categories 0 and 10 would have half the range of the 
+others and equal bins are preferable.
+
+check for instances of perfect scores as they will break the system. This doesn't use the 
+training set but rather the whole set as it will not bias the model but stop any errors
+down the line.
+
+```{r}
+red %>% 
+  filter(quality == 10)
+```
+no instances so 0-9 method will work.
+
+
+
+```{r} 
+red_quality <- red_training %>% 
+  mutate(quality = 
+           case_when(quality < 1 ~ 0,
+         quality < 2 ~ 1,
+         quality < 3 ~ 2,
+         quality < 4 ~ 3,
+         quality < 5 ~ 4,
+         quality < 6 ~ 5,
+         quality < 7 ~ 6,
+         quality < 8 ~ 7,
+         quality < 9 ~ 8,
+         quality < 10 ~ 9
+  ),
+  quality = as_factor(quality))
+```
+
+
+```{r}
+ggplot(red_quality) +
+  aes(x = quality) +
+  geom_bar()
+```
+seems to have worked and wooks to be normally distributed.
+
+#### logging
+
+```{r}
+ggplot(red_quality) +
+  aes(x = alcohol, y = quality) +
+  geom_point()
+```
+perhaps this quality transform will present more problems than solutions for linear
+modelling, will undo this.
+
+```{r}
+ggplot(red_training) +
+  aes(x = log10(alcohol)) +
+  geom_bar(width = 0.1)
+
+ggplot(red_training) +
+  aes(x = alcohol) +
+  geom_bar(width = 0.1)
+```
+
+
+UNFINISHED!!!! will come back to this but haven't had time this weekend
+
+## White
+
+### test & training
+
+```{r}
+white_test_id <- sample(white$wine_id, nrow(white)/10)
+white_test <- white[white_test_id,]
+white_training <- white[-white_test_id,]
+```
+
+
+### First look/cleaning/transfomation
+
+```{r}
+white_summary <- skimr::skim(white_training)
+view(white_summary)
+```
+
+looks as though some variables are less skewed here, like alcohol, so a log transform is no longer
+appropriate
+
+
+```{r}
+alias(lm(quality ~ ., white_training))
+```
+
+also nothing aliased here so all predictors will be considered
+
+
+
+
+
+
+UNFINISHED!!!! will come back to this but haven't had time this weekend

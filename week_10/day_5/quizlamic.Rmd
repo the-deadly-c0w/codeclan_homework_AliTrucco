@@ -1,0 +1,116 @@
+---
+title: "Homework Quiz"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+    css: ../../../styles.css
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br><br>
+
+1. I want to predict how well 6 year-olds are going to do in their final school exams. Using the following variables am I likely under-fitting, fitting well or over-fitting? Postcode, gender, reading level, score in maths test, date of birth, family income.
+
+
+
+I would say this may be a little overfit given the large number of predictors, though many of them do feel
+relevant so dropping them would require a good look at some diagnostics like an anova table.
+
+
+on a surface level if I felt I had to drop predictors I would probably choose:
+
+- postcode, since I feel most of the effect will be captured by income which is a more individually
+descriptive variable.
+
+- date of birth, it seems unlikely for there to be a great predictable change based on birthday that 
+matters. though this may depend on the data though, as if it spans back over many years the trend in 
+test scores rising/falling may be deemed relevant.
+
+needless to say the simplest model would be the reading score and maths score, and this may be an adequate
+and far less variable model. 
+
+
+
+
+
+
+2. If I have two models, one with an AIC score of 34,902 and the other with an AIC score of 33,559 which model should I use?
+
+
+
+
+the second as a lower AIC describes a more accurate model
+
+
+
+
+3. I have two models, the first with: r-squared: 0.44, adjusted r-squared: 0.43. The second with: r-squared: 0.47, adjusted r-squared: 0.41. Which one should I use?
+
+
+
+the first model seems preferable as the adjusted r-squared is lower, and also much closer to it's 
+respective r-squared value which indicates fewer predictors and so less overfitting. 
+
+
+
+4. I have a model with the following errors: RMSE error on test set: 10.3, RMSE error on training data: 10.4. Do you think this model is over-fitting?
+
+
+
+no, the difference in errors is quite small and we expect to see the training data having a higher RMSE
+as the model is fit as well as it can be to the test data.
+
+
+
+
+5. How does k-fold validation work?
+
+
+the dataset you intend to make a model from is split randomly into k groups of even size.
+From each of these groups a model is generated and tested against the other k-1 groups.
+with all of these test results (on a test value of our choosing, BIC for example) we see which of these 
+random models makes for a better model 'in the wild'
+
+
+
+
+6. What is a validation set? When do you need one?
+
+
+A validation set is a subset of the data that is separated from the training set before any models are 
+generated. It is used after some models have been made to test the models on different data to see which
+model generalises best. This process then means you can pick the predictors that work best on the
+validation set. This differs from the test set which is only used to test the goodness of fit of a model.
+
+
+
+7. Describe how backwards selection works.
+
+
+Backwards selection works by initially making a model with every possible predictor involved and 
+systematically removing predictors based on their significance and* affect on the r-squared/adj-r-squared
+value of the model. It doesn't take interactions into account and it works in order so it will not see if
+removing a predictor and adding a previously removed one has a positive effect.
+
+*these are intrinsically linked
+
+
+
+
+8. Describe how best subset selection works.
+
+
+Best Subset selection is a computationally heavy modelling technique that models every combination of 
+predictors available and tests all the models against one another based on a test criteria. this 
+results in 2^n models being produced and compared, where n is the number of available predictors. This 
+means as your vaiables increase the cost becomes exponentially higher but unlike backwards or forwards
+selection, certain combined effects are not lost.
+
+
