@@ -1,0 +1,127 @@
+---
+title: "Clustering homework"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+This homework involves the `mall_customers.csv` data we've provided, based on data collected in a shopping mall. It will give you an opportunity to practice your new clustering skills.
+
+<br>
+
+```{r}
+mall <- read_csv("data/mall_customers.csv")
+mall <- janitor::clean_names(mall)
+```
+
+# MVP
+
+Task 1
+
+* Do some exploratory analysis on the data. Comment on findings. 
+
+```{r, message=FALSE}
+ggpairs(mall %>% select(-customer_id))
+```
+
+seems like very balanced data with no obvious correlations. spending score vs annual income does have
+some curious patterns going on that look like 5 clusters.
+
+
+<br>
+
+Task 2
+
+* We are interested in creating a marketing campaign to target customers based on their spending score and annual income. Select an appropriate value for k and perform k-means clustering to find if there are meaningful clusters in the data to target the customers. 
+
+<br>
+
+```{r}
+mall_trim <- mall %>% 
+  select(4,5)
+```
+
+
+
+```{r}
+max_k <- 20
+
+k_clusters <- tibble(k = 1:max_k) %>% 
+  mutate(
+    kclust = map(k, ~ kmeans(mall_trim, .x, nstart = 25)),
+    tidied = map(kclust, tidy),
+    glanced = map(kclust, glance),
+    augmented = map(kclust, augment, mall_trim)
+  )
+
+```
+
+
+```{r}
+fviz_nbclust(mall_trim,
+             kmeans,
+             method = "gap_stat",
+             nstart = 1)
+```
+
+```{r}
+fviz_nbclust(mall_trim,
+             kmeans,
+             method = "silhouette",
+             nstart = 25)
+```
+```{r}
+fviz_nbclust(mall_trim, 
+             kmeans, 
+             method = "wss", 
+             nstart = 25)
+```
+
+through looking at the data and these graphs it seems that 5 is the most sensible k to pick.
+
+Task 3
+
+* Visualise the clustering for your chosen value of k.
+
+```{r}
+mall_model <- kmeans(mall_trim,
+                         centers = 5,
+                         nstart = 25)
+
+mall_grouped <- mall_trim %>% 
+  mutate(group = mall_model$cluster)
+```
+
+
+```{r}
+mall_grouped %>% 
+  ggplot() +
+  aes(x = annual_income_k, y = spending_score_1_100) +
+  geom_point(aes(colour = as.factor(group)))
+```
+
+
+<br>
+
+Task 4
+
+* Do you think the clustering seems a good fit for this data?
+
+
+yes, the clusters look very distinctive and well fit to the data
+
+<br>
+
+Task 5
+
+* Comment on the attributes of one or two of the clusters (maybe even give them an appropriate label if you like - similar to section 4.1 of the 'Segmentation & clustering intro' lesson where we saw labels such as "Super Fans" and "Tag-Alongs"). 
+
+
+
+somewhat bizarrely we have a chessboard pattern where people of high and low but not medium incomes
+will be either very frugal or spend money freely, whereas the middle range of salaries tend to have 
+a very strict spread of spending in the middling zone.
