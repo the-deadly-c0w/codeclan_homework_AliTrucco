@@ -1,0 +1,95 @@
+---
+title: "Classification & clustering methods homework"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+    css: ../../../styles.css
+  pdf_document: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```
+
+# MVP
+
+Classification and clustering are two fields of machine learning in which there are a particularly large number of methods and algorithms. This can be confusing for people just starting out in the field (and indeed for seasoned hands!). 
+
+We would like you to first investigate the difference between classification and clustering using the resources you find online, and then choose **one** of the machine learning methods listed below and write a paragraph or two on how it works, its strengths and weaknesses, and suitable areas of application. It would be good to find an example use case of your chosen method for a particular problem. Do include a single figure if appropriate (feel free to screenshot this, but cite your source). 
+
+We will make your write-ups available to the rest of the class, and ask you to give a two-minute lightning presentation on your chosen method tomorrow morning!
+
+* k-means clustering
+* logistic regression (dig a little deeper on this one, given we studied it today)
+* linear discriminant analysis (LDA)
+* decision trees and random forests
+* neural networks
+* support vector machines
+* hierarchical clustering
+* naive Bayes classifiers
+
+## Suggested Resources
+
+Try searching to find resources that work for you, but here are some good starting suggestions
+
+* [StatQuest](https://www.youtube.com/user/joshstarmer) is an excellent resource, you'll find lots of short informative videos there on machine learning
+* [Analytics Vidyha](https://www.analyticsvidhya.com/blog/) is also great, it offers numerous blog posts relating to machine learning
+* [This blog](https://machinelearningmastery.com/types-of-classification-in-machine-learning/) by Jason Brownless on types of classification problems is quite good
+* [This blog](https://www.analyticsvidhya.com/blog/2016/11/an-introduction-to-clustering-and-different-methods-of-clustering/) on Analytics Vidhya gives a good first overview of clustering
+
+## Time Limit
+
+Don't go overboard on this: set an absolute maximum of **2 hours work** to research and then write your short description! 
+
+
+
+
+
+Support Vector Machines
+
+
+
+can be used in both regression and classification analysis, but is most commonly used for classification
+
+seeks to distinctly group points by creating a hyperplane of dimension equal to the number of features
+(or columns)
+
+there are often many planes that can be fit to the data so it seeks to find one with the 'greatest margins'
+that is to say the greatest distance between the points of both classes relative to the plane. This allows
+the model's predictions to be made with greater confidence.
+
+the titular support vectors are comprised of points closest to the position of the hyperplane and hence 
+have a great deal more influence on its calibration.
+
+
+
+
+```{r}
+iris <- janitor::clean_names(iris)
+
+
+# dropping one species as we wish to only distinguish between two categories
+
+iris <- iris %>% 
+  filter(species != "virginica")
+```
+
+```{r}
+ggplot(iris) +
+  aes(sepal_length, petal_length, colour = species) +
+  geom_point()
+```
+
+as we can see the two groups are very distinct and there should be a handy line to go down the middle, but
+which
+
+```{r}
+iris_test_id <- sample(1:100, 10)
+iris_test <- iris[iris_test_id,]
+iris_training <- iris[-iris_test_id,]
+```
+
